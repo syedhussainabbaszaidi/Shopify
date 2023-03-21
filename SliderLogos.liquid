@@ -1,0 +1,75 @@
+<div class="col3">
+    <div class="container">
+<!--       <h2>{{ section.settings.title }}<span> {{ section.settings.title2 }}</span></h2> -->
+    </div>
+        <div class="swiper mySwiper">
+            <div class="col3_main swiper-wrapper">
+             {% for block in section.blocks %}
+                        <div class="col3_box swiper-slide">
+                                  <img src="{{ block.settings.image | img_url: 'master' }}" >
+                        </div>
+             {% endfor %}
+            </div>
+        </div>
+
+    
+</div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", 
+    {
+      centeredSlides: true,
+      slidesPerView: 6,
+      breakpoints: {
+      300: {
+        slidesPerView: 3,
+      },
+      640: {
+        slidesPerView: 4,
+      },
+      1024: {
+        slidesPerView: 6,
+      },
+    },
+    });
+  </script>
+{% schema %}
+  {
+    "name": "Small Slider",
+    "settings": [
+      {
+        "type" : "text",
+        "id" : "title",
+        "label" : "Heading"
+      }
+    ],
+    "blocks" : [
+      {
+        "type" : "image_picker",
+        "name" : "Add Image",
+        "settings": [
+          {
+            "type" : "image_picker",
+            "id" : "image",
+            "label" : "Image"
+          }
+        ]
+      }
+    ],
+    "presets" : [
+      {
+        "name" : "Small Slider"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
