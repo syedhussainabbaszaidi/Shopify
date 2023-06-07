@@ -1,0 +1,56 @@
+<div class="col7">
+  <div class="standard">
+    <div class="col7_top">
+      <h2>{{ section.settings.sub-heading }}</h2>
+      <img src="https://cdn.shopify.com/s/files/1/0431/3520/5535/files/treding-image.png?v=1686061617">
+      <h3>{{ section.settings.heading }}</h3>
+    </div>
+    <div class="col7_main">
+    <div class="swiper mySwiper01">
+      <div class="swiper-wrapper">
+        {% for product in section.settings.collection.products %}
+              <div class="swiper-slide">
+                    <div class="col7_box">
+                      <img src="{{ product.featured_image | img_url:'master' }}">
+                      <div class="col7_txt">
+                        <h2> {{ product.title }}</h2><br>
+                        <h3> {{ section.settings.collection }}</h3><br>
+                        <h4> {{ product.price }}</h4><br>
+                      </div>
+                    </div>
+              </div>
+          {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Product Slider",
+     "settings": [
+      {
+        "type" : "collection",
+        "id" : "collection",
+        "label" : "Collection"
+      },
+      {
+        "type" : "text",
+        "id" : "sub-heading",
+        "label" : "Sub Heading"
+      },
+      {
+        "type" : "text",
+        "id" : "heading",
+        "label" : "Heading"
+      }
+    ],
+    "presets": [
+      {
+        "name" : "Collection Product Slider"
+      }
+    ]
+  }
+{% endschema %}
