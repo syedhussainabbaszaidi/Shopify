@@ -1,0 +1,10 @@
+<div class="second_menu">
+<ul>
+  {% for block in section.blocks %}
+{% for link in block.settings.menu_second.links %}
+  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+{% endfor %}
+{% endfor %}
+</ul>
+ <div class="powr-popup" id="f13fa135_1685006595" style="display:none"></div>
+</div>
