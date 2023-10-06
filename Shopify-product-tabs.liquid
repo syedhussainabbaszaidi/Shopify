@@ -1,0 +1,64 @@
+// badi website
+// product ka loop  id or href banana zarori hai 
+
+<div class="col5">
+    <div class="col5_top">
+      {% for product in section.settings.collection.products %}
+            <div class="col5_box" href="#product-{{ forloop.index }}">
+              <img src={{ product.metafields.custom.image | img_url: 'master' }} />
+              <h2>{{ product.title }}.</h2>
+              <h3>{{ product.description | truncate: 60 }}</h3>
+            </div>
+      {% endfor %}
+    </div>
+        <div class="col5_bottom_main" style="background: #fff">
+           {% for product in section.settings.collection.products %}
+                  <div class="col5_bottom" id="product-{{ forloop.index }}">
+                    <div class="col5_bottom_box">
+                      <img src={{ product.featured_image | img_url: 'master' }} />
+                      <h4>{{ product.price | money }}</h4>
+                      <div class="col5_btn">
+                        <a href="">Add to Cart</a>
+                      </div>
+                    </div>
+                     <div class="col5_bottom_box">
+                        <h2>{{ product.title }}</h2>
+                        <h3>{{ product.description }}</h3>
+                    </div>
+                  </div>
+          {% endfor %}
+        </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product Section",
+    "settings": [
+      {
+        "type" : "collection",
+        "label" : "collection",
+        "id" : "collection"
+      }
+    ],
+    "presets" : [
+      {
+        "name" : "Product Section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+<script>
+  $('.col5_top .col5_box').on('click',function(){
+    $(this).addClass('active');
+    let currentTab = $(this).attr('href');
+    $('.col5_bottom').hide();
+    $(currentTab).css('display','flex');
+  });
+</script>
