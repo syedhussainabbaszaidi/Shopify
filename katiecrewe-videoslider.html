@@ -1,0 +1,315 @@
+<div class="video_slider_main_mw">
+  <div class="video_slider_main_mw_inner">
+    <div class="video_slider_inner_content">
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.btn_label != blank %}
+        <a class="btn video_slider_btn" href="{{ section.settings.btn_url }}">{{ section.settings.btn_label }}</a>
+      {% endif %}
+    </div>
+    {% comment  %}
+      <div class="video__play__icon">
+      <img src="https://cdn.shopify.com/s/files/1/0494/9196/8157/files/play_icon_6776dd57-a32b-4bd5-ac4f-25100a23f1f6.png?v=1669356190" alt="">
+    </div> 
+
+<!--     <div class="vide_slider_overlay"></div> -->
+
+    {% endcomment  %}
+    
+    <div class="video_slider_inner">
+        <div class="video_slider_mw">
+          <video class="video___slider"  autoplay="autoplay" loop="loop" muted="muted" playsinline="playsinline"  muted defaultMuted playsinline  >
+            <source src="" type="video/mp4">
+            <source src="" type="video/ogg">
+          </video>
+        </div>
+    </div>
+  </div>
+  
+  <div class="video_slider_inner_thumb">
+    {% for block in section.blocks %}
+      <div class="custom__video__slider">
+        <div class="video_slider_mw_thumb" data-videoSrc="{{ block.settings.video }}">
+          {% if block.settings.image != blank %}
+            <img width="100%" src="{{ block.settings.image | img_url: 'master' }}" alt="">
+          {% endif %}
+        </div>
+        <p>{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  {%- comment -%} {% if section.settings.btn_label != blank %}
+    <div class="video_slider_mob_btn">
+      <a class="btn video_slider_btn" href="{{ section.settings.btn_url }}">{{ section.settings.btn_label }}</a>
+    </div>
+  {% endif %} {%- endcomment -%}
+
+</div>
+
+
+{% schema %}
+  {
+    "name": "Video slider",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "btn_label",
+        "label": "Button label",
+        "default": "Button"
+      },
+      {
+        "type": "url",
+        "id": "btn_url",
+        "label": "Button link"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "video",
+        "type": "video",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },{
+            "type": "url",
+            "id": "video",
+            "label": "Video link"
+          }, {
+            "type": "text",
+            "id": "text",
+            "label": "Title"
+          }
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Video Slider"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .video_slider_mw_thumb {
+    margin: 0 auto;
+    background-color: #fff;
+    text-align: center;
+    width: 250px;
+    height: 200px;
+    overflow: hidden;
+  }
+  .video_slider_main_mw_inner {
+    position: relative;
+  }
+
+  .video_slider_inner_content {
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .video_slider_inner_content h2{
+    padding-bottom: 30px;
+    font-size: 48px;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    color: #fff
+  }
+  
+  .video_slider_main_mw a.video_slider_btn{
+    border-radius: 30px;
+    padding-left: 70px;
+    padding-right: 70px;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Montserrat';
+  }
+
+  .video_slider_mob_btn{
+    text-align: center;
+  }
+
+  video.video___slider {
+    width: 100%;
+  }
+
+  .video_slider_inner_thumb{
+    display: grid;
+    text-align: center;
+    width: 100%;
+    overflow-x: scroll;    
+    margin: 0 auto;
+    background: linear-gradient(359deg, black, transparent);
+    padding-bottom: 20px;
+  }
+
+  .video_slider_inner_thumb::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom__video__slider{
+    margin: 0 10px;
+    max-width: 250px;
+    background-color: #fff;
+  }
+
+  .video_slider_mw_thumb img{
+    cursor: pointer;
+  }
+
+  .video__play__icon {
+    display: none;
+  }
+
+  @media screen and (min-width: 768px){
+    .video_slider_mob_btn a{
+      display: none;
+    }
+
+    .video_slider_inner_content{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%, -50%);      
+      background-color: #00000090;
+      padding: 20px;
+    }
+
+/*     .vide_slider_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000047;
+    z-index: 111;
+  } */
+  }
+
+    @media screen and (min-width: 1100px){
+      .video__play__icon {
+        top: 25%;
+        transform: translate(-50%, -25%);
+        position: absolute;
+        left: 50%;
+        display: block;
+      }
+
+      .video_slider_inner_thumb {
+        margin-top: -12%;
+       position: relative;
+     }
+    }
+
+  @media screen and (max-width: 992px){
+    .video_slider_main_mw{
+      margin-top: 60px;
+    }
+
+    .video_slider_inner_content h2{
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .video_slider_inner_content {
+      max-width: 400px;
+    }
+   
+  }
+
+  @media screen and (max-width: 767px){
+    .video_slider_inner_content a{
+      display:inline-block;
+    }
+/*     .video_slider_inner_content {
+      position: absolute;
+      text-align: left;
+      background-color: rgba(0,0,0,0.2);
+      width: 100% !important;
+      height: 98%;
+     } */
+
+    .video_slider_inner_content {
+    position: absolute;
+    text-align: left;
+    bottom: 20px;
+    margin-left: 30px;
+  }
+    
+     .video_slider_inner_content a {
+      font-size: 10px !important;
+      padding: 6px 11px !important;
+      }
+
+    .video_slider_main_mw{
+/*       padding: 30px 0; */
+      padding-bottom:0;
+    }
+
+    
+
+    .custom__video__slider p {
+      font-size: 12px;
+    }
+
+      .video_slider_mw_thumb {
+    
+     width: 200px;
+    height: 150px;
+  
+  }
+
+  }
+
+</style>
+
+<script>
+  $(document).ready(function(){
+    const videoSlider = document.querySelectorAll(".custom__video__slider");
+    if(videoSlider){
+      let thumbLen = videoSlider.length
+      document.querySelector(".video_slider_inner_thumb").style.cssText = `grid-template-columns: repeat(${thumbLen}, auto);`;
+
+      const videoThumbnail = document.querySelectorAll(".video_slider_mw_thumb");
+      const mainVideo = document.querySelector(".video___slider");
+      for(let i = 0; i < videoThumbnail.length; i++){
+        videoThumbnail[i].addEventListener("click", function(){
+          mainVideo.src = this.getAttribute('data-videosrc');
+          mainVideo.load();
+          mainVideo.play();
+          videoThumbnail.forEach(function(e){
+            e.style.border = "none";
+          });
+          this.style.border = "2px solid #ff6d6d";
+          document.querySelector(".video__play__icon").style.display = "none";
+        });
+      }
+
+      mainVideo.src = videoThumbnail[0].getAttribute('data-videosrc');
+
+      mainVideo.addEventListener("click",function(){
+        if(!mainVideo.paused){
+          document.querySelector(".video__play__icon").style.display = "block";
+        }else{
+          document.querySelector(".video__play__icon").style.display = "none";
+        }
+      });
+    }
+
+    //auto play video 
+   document.querySelector(".video__play__icon").style.display = "none";
+   
+  });
+
+</script>
