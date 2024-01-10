@@ -1,0 +1,27 @@
+{% assign white_available = false %}
+{% assign black_available = false %}
+{% for product in collections['speedwoofer-10s-mkii'].products %}
+  {% if product.id == 8429987922198 %}
+    {% for variant in product.variants %}
+      {% assign variant_title_lower = variant.title | downcase %}
+
+      {% if variant_title_lower contains 'black' and variant.available %}
+        {% assign black_available = true %}
+      {% elsif variant_title_lower contains 'white' and variant.available %}
+        {% assign white_available = true %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+
+
+{% if white_available and black_available %}
+  <p>BOTH BLACK AND WHITE SPEEDWOOFER 10S ARE IN STOCK</p>
+{% elsif white_available %}
+  <p>BLACK SPEEDWOOFER IS SOLD OUT</p>
+{% elsif black_available %}
+  <p>WHITE SPEEDWOOFER IS SOLD OUT</p>
+{% else %}
+  <p>BOTH BLACK AND WHITE SPEEDWOOFER 10S ARE SOLD OUT</p>
+{% endif %}
