@@ -1,0 +1,11 @@
+{% assign faqs = product.metafields.custom.faqquestion.value %}
+{% assign faqanswers = product.metafields.custom.faqanswer.value %}
+{% for faq in faqs %}
+{% assign faq_index = forloop.index0 %}
+
+<div class="col2_faq">
+  <div class="col2_question">{{ faqs[faq_index] }}</div>
+  <div class="col2_answer">{{ faqanswers[faq_index] }}</div>
+</div>
+
+{% endfor %}
