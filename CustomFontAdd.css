@@ -1,0 +1,21 @@
+@charset "utf-8";
+@font-face {
+  font-family: 'Helvetica LT Std';
+  src: url('https://cdn.shopify.com/s/files/1/0450/6478/1977/files/HelveticaLTStdLight.woff2?v=1706803362') format('woff2')
+}
+
+@font-face {
+  font-family: 'Helvetica LT Std Roman';
+  src: url('https://cdn.shopify.com/s/files/1/0450/6478/1977/files/HelveticaLTStdRoman.woff2?v=1706804114') format('woff2')
+}
+
+@font-face {
+  font-family: 'Helvetica LT Std Bold';
+  src: url('https://cdn.shopify.com/s/files/1/0450/6478/1977/files/HelveticaLTStdBold.woff2?v=1706804297') format('woff2')
+}
+
+
+@font-face {
+  font-family: 'Helvetica LT Std Fractions';
+  src: url('https://cdn.shopify.com/s/files/1/0450/6478/1977/files/HelveticaLTStdFractions.woff2?v=1706804929') format('woff2')
+}
