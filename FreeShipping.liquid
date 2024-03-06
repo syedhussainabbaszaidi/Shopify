@@ -18,7 +18,7 @@
 {% assign MainPrice = settings.free_shipping | plus: 0 %}
 {% assign CartPrice = cart.total_price | money_without_currency %}
 {% assign CartPrice = CartPrice | remove: ".00" %}
-{{ MainPrice }}  {{ CartPrice }} 
+<!-- {{ MainPrice }}  {{ CartPrice }} -->
 {% assign TotalPrice =  MainPrice | minus: CartPrice %}
 
 <!-- {% assign PercentFlow = 100 | times: CartPrice %}
