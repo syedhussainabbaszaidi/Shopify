@@ -1,1 +1,46 @@
+<div class="page-width">
+  <div id="blogData" class="grid"></div>
+</div>
+{% schema %}
+  {
+    "name": "Wp Blogs",
+    "settings": [],
+    "presets" : [
+      {
+        "name" : "Wp Blogs"
+      }
+    ]
+  }
+{% endschema %}
+<style>
+  .grid__item img{
+    width: 100%;
+  }
+</style>
+<script>
+  let url = "https://thecarthippo.com/wp-json/wp/v2/posts"
+  fetch(url)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    getResult(data);
+    // console.log(data);
+  })
+  .catch(function(error){
+    return error;
+  });
 
+  function getResult(data){
+    let html = "";
+    for(let item in data){
+      let findData = `<div class="grid__item">
+                <img src="${data[item].yoast_head_json.og_image[0].url}">
+                <h2>${data[item].title.rendered}</h2>
+              </div>`;
+      html += findData;
+      let container = document.getElementById('blogData');
+      container.innerHTML = html;
+    }
+  }
+</script>
