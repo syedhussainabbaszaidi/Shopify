@@ -1,31 +1,37 @@
-// setting_schema mein add karna hai
-
-  {
-    "name" : "Free Shipping Bar",
-    "settings" : [
-      {
-        "type" : "text",
-        "label" : "Add Price",
-        "id": "free_shipping"
-      }
-    ]
-  },
-
-// Upper Box mein 1000 dala hai
-
-// free-shipping.liquid (Snippet)
-
 {% assign MainPrice = settings.free_shipping | plus: 0 %}
-{% assign CartPrice = cart.total_price | money_without_currency %}
-{% assign CartPrice = CartPrice | remove: ".00" %}
+{% assign CartPrice = cart.total_price | divided_by: 100 %}
+{% assign CartPrice = CartPrice | remove: ".00" | plus: 0 %}
 
-{% assign TotalPrice =  MainPrice | minus: CartPrice %}
+{% assign TotalPrice = MainPrice | minus: CartPrice %}
 
-<!-- {% assign PercentFlow = 100 | times: CartPrice %}
-{% assign PercentDevision = PercentFlow | divided_by: MainPrice %} -->
+{% assign PercentFlow = 100 | times: CartPrice %}
+{% assign PercentDevision = PercentFlow | divided_by: MainPrice %}
 
-{% if TotalPrice < 999 %}
-<p>Add {{ TotalPrice }} more to get free shipping</p>
+{% if CartPrice < MainPrice %}
+  <p>Add {{ TotalPrice }} more to get free shipping</p>
 {% else %}
-<p>Now Free Shipping</p>
+  <p>Now Free Shipping</p>
 {% endif %}
+
+<div class="progress_bar">
+  <span class="inner_progress_bar" style="width:{{ PercentDevision }}%"></span>
+</div>
+
+<style>
+.progress_bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  background: #ccc;
+  height: 10px;
+  margin: 10px 0px;
+  border-radius: 50px;
+}
+
+span.inner_progress_bar {
+  position: absolute;
+  background: red;
+  height: 10px;
+  border-radius: 10px;
+}
+</style>
