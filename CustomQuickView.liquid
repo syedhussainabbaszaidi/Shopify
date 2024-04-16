@@ -1,4 +1,4 @@
-// body mein end m dalna hai ye 
+/////////////////////////////////////////////////////////////////////////////// body mein end m dalna hai ye //////////////////////////////////////////////////////////////////////////////
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@
 
 </script>
 
-// then quickview snippet bnana hai then ye code add krna hai
+/////////////////////////////////////////////////////////////////////////// then quickview snippet bnana hai then ye code add krna hai ////////////////////////////////////////////////////////////////////////////
 
 <div class="qv-product-images" style="opacity: 0"></div>
 
@@ -66,9 +66,368 @@
 </div>
 
 
-// then jahan show krwana button ko wahan ye line add krdo
+/////////////////////////////////////////////////////////////////// then jahan show krwana button ko wahan ye line add krdo ////////////////////////////////////////////////////////////////////////
 
- <div class="open_buttons">
+
+<div class="open_buttons">
     <div class="quick-view-button"><a class="quick-view" data-handle="{{ card_product.handle }}" href="javascript:void(0);">{% render 'eyeCatch' %}</a></div>
   </div>
 
+
+///////////////////////////////////////////////////////////////// eyeCatch snippet svg k lye create krna  ////////////////////////////////////////////
+
+<svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.2352 9.00043C12.2352 10.4854 11.0352 11.6854 9.55023 11.6854C8.06523 11.6854 6.86523 10.4854 6.86523 9.00043C6.86523 7.51543 8.06523 6.31543 9.55023 6.31543C11.0352 6.31543 12.2352 7.51543 12.2352 9.00043Z" stroke="#111827" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.54969 15.2025C12.1972 15.2025 14.6647 13.6425 16.3822 10.9425C17.0572 9.88504 17.0572 8.10754 16.3822 7.05004C14.6647 4.35004 12.1972 2.79004 9.54969 2.79004C6.90219 2.79004 4.43469 4.35004 2.71719 7.05004C2.04219 8.10754 2.04219 9.88504 2.71719 10.9425C4.43469 13.6425 6.90219 15.2025 9.54969 15.2025Z" stroke="#111827" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+//////////////////////////////////////////////////////////////////// quickview.js asset mein file create krna hai //////////////////////////////////////////////////////////////////////
+
+$(document).ready(function () {
+
+  $.getScript("//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js").done(function() {
+
+    quickView();
+
+  });
+
+});
+
+ 
+
+function quickView() {
+
+  $(".quick-view").click(function () {
+
+    if ($('#quick-view').length == 0){$("body").append('<div id="quick-view"></div>');}
+
+    var product_handle = $(this).data('handle');
+
+    $('#quick-view').addClass(product_handle);
+
+    jQuery.getJSON('/products/' + product_handle + '.js', function (product) {
+
+      var title = product.title;
+
+      var type = product.type;
+
+      var price = 0;
+
+      var original_price = 0;
+
+      var desc = product.description;
+
+      var images = product.images;
+
+      var variants = product.variants;
+
+      var options = product.options;
+
+      var url = '/products/' + product_handle;
+
+      $('.qv-product-title').text(title);
+
+      $('.qv-product-type').text(type);
+
+      $('.qv-product-description').html(desc);
+
+      $('.view-product').attr('href', url);
+
+      var imageCount = $(images).length;
+
+      $(images).each(function (i, image) {
+
+        if (i == imageCount - 1) {
+
+          var image_embed = '<div><img src="' + image + '"></div>';
+
+          image_embed = image_embed.replace('.jpg', '_800x.jpg').replace('.png', '_800x.png');
+
+          $('.qv-product-images').append(image_embed);
+
+ 
+
+          $('.qv-product-images').slick({
+
+            'dots': false,
+
+            'arrows': false,
+
+            'respondTo': 'min',
+
+            'useTransform': false
+
+          }).css('opacity', '1');
+
+ 
+
+        } else {
+
+          image_embed = '<div><img src="' + image + '"></div>';
+
+          image_embed = image_embed.replace('.jpg', '_800x.jpg').replace('.png', '_800x.png');
+
+          $('.qv-product-images').append(image_embed);
+
+        }
+
+      });
+
+      $(options).each(function (i, option) {
+
+        var opt = option.name;
+
+        var selectClass = '.option.' + opt.toLowerCase();
+
+        $('.qv-product-options').append('<div class="option-selection-' + opt.toLowerCase() + '"><span class="option">' + opt + '</span><select class="option-' + i + ' option ' + opt.toLowerCase() + '"></select></div>');
+
+        $(option.values).each(function (i, value) {
+
+          $('.option.' + opt.toLowerCase()).append('<option value="' + value + '">' + value + '</option>');
+
+        });
+
+      });
+
+      $(product.variants).each(function (i, v) {
+
+        if (v.inventory_quantity == 0) {
+
+          $('.qv-add-button').prop('disabled', true).val('Sold Out');
+
+          $('.qv-add-to-cart').hide();
+
+          $('.qv-product-price').text('Sold Out').show();
+
+          return true
+
+        } else {
+
+          price = parseFloat(v.price / 100).toFixed(2);
+
+          original_price = parseFloat(v.compare_at_price / 100).toFixed(2);
+
+          $('.qv-product-price').text('$' + price);
+
+          if (original_price > 0) {
+
+            $('.qv-product-original-price').text('$' + original_price).show();
+
+          } else {
+
+            $('.qv-product-original-price').hide();
+
+          }
+
+          $('select.option-0').val(v.option1);
+
+          $('select.option-1').val(v.option2);
+
+          $('select.option-2').val(v.option3);
+
+          return false
+
+        }
+
+      });
+
+    });
+
+ 
+
+    $(document).on("change", "#quick-view select", function () {
+
+      var selectedOptions = '';
+
+      $('#quick-view select').each(function (i) {
+
+        if (selectedOptions == '') {
+
+          selectedOptions = $(this).val();
+
+        } else {
+
+          selectedOptions = selectedOptions + ' / ' + $(this).val();
+
+        }
+
+      });
+
+      jQuery.getJSON('/products/' + product_handle + '.js', function (product) {
+
+        $(product.variants).each(function (i, v) {
+
+          if (v.title == selectedOptions) {
+
+            var price = parseFloat(v.price / 100).toFixed(2);
+
+            var original_price = parseFloat(v.compare_at_price / 100).toFixed(2);
+
+            var v_qty = v.inventory_quantity;
+
+            var v_inv = v.inventory_management;
+
+            $('.qv-product-price').text('$' + price);
+
+            $('.qv-product-original-price').text('$' + original_price);
+
+            if (v_inv == null) {
+
+              $('.qv-add-button').prop('disabled', false).val('Add to Cart');
+
+            } else {
+
+              if (v.inventory_quantity < 1) {
+
+                $('.qv-add-button').prop('disabled', true).val('Sold Out');
+
+              } else {
+
+                $('.qv-add-button').prop('disabled', false).val('Add to Cart');
+
+              }
+
+            }
+
+          }
+
+        });
+
+      });
+
+    });
+
+    $.fancybox({
+
+      href: '#quick-view',
+
+      maxWidth: 1040,
+
+      maxHeight: 600,
+
+      fitToView: true,
+
+      width: '75%',
+
+      height: '70%',
+
+      autoSize: false,
+
+      closeClick: false,
+
+      openEffect: 'none',
+
+      closeEffect: 'none',
+
+      'beforeLoad': function () {
+
+        var product_handle = $('#quick-view').attr('class');
+
+        $(document).on("click", ".qv-add-button", function () {
+
+          var qty = $('.qv-quantity').val();
+
+          var selectedOptions = '';
+
+          var var_id = '';
+
+          $('#quick-view select').each(function (i) {
+
+            if (selectedOptions == '') {
+
+              selectedOptions = $(this).val();
+
+            } else {
+
+              selectedOptions = selectedOptions + ' / ' + $(this).val();
+
+            }
+
+          });
+
+          jQuery.getJSON('/products/' + product_handle + '.js', function (product) {
+
+            $(product.variants).each(function (i, v) {
+
+              if (v.title == selectedOptions) {
+
+                var_id = v.id;
+
+                processCart();
+
+              }
+
+            });
+
+          });
+
+          function processCart() {
+
+            jQuery.post('/cart/add.js', {
+
+              quantity: qty,
+
+              id: var_id
+
+            },
+
+                        null,
+
+                        "json"
+
+                       ).done(function () {
+
+              $('.qv-add-to-cart-response').addClass('success').html('<span>' + $('.qv-product-title').text() + ' has been added to your cart. <a href="/cart">Click here to view your cart.</a>');
+
+            })
+
+            .fail(function ($xhr) {
+
+              var data = $xhr.responseJSON;
+
+              $('.qv-add-to-cart-response').addClass('error').html('<span><b>ERROR: </b>' + data.description);
+
+            });
+
+          }
+
+        });
+
+        $('.fancybox-wrap').css('overflow', 'hidden !important');
+
+      },
+
+      'afterShow': function () {
+
+        $('#quick-view').hide().html(content).css('opacity', '1').fadeIn(function () {
+
+          $('.qv-product-images').addClass('loaded');
+
+        });
+
+      },
+
+      'afterClose': function () {
+
+        $('#quick-view').removeClass().empty();
+
+      }
+
+    });
+
+  });
+
+};
+
+ 
+
+$(window).resize(function () {
+
+  if ($('#quick-view').is(':visible')) {
+
+    $('.qv-product-images').slick('setPosition');
+
+  }
+
+});
